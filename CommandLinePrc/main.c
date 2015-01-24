@@ -59,6 +59,10 @@ void callPreviousPractice(){
     
 }
 
+//static int maxSubSum(const int A[], int left, int right){
+//    int maxLeftSum, maxRightSum;
+//    
+//}
 
 
 void toBeMeasured(){
@@ -67,9 +71,7 @@ void toBeMeasured(){
     
 }
 
-int main(int argc, char **argv)
-{
-//    callPreviousPractice();
+void timeMeasuring(){
     clock_t startClock, endClock;
     startClock = clock();
     
@@ -78,6 +80,15 @@ int main(int argc, char **argv)
     endClock = clock();
     printf("\n");
     printf("%lf",(double)(endClock-startClock)/CLOCKS_PER_SEC);
+}
+
+
+int main(int argc, char **argv)
+{
+//    callPreviousPractice();
+//    timeMeasuring();
+    
+    
     return 0;
 }
 
