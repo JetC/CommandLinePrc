@@ -1,89 +1,85 @@
 #include<stdio.h>
 #include<stdlib.h>
+#include <time.h>
 
-/*找出第n大的数的下标*/
-int choose_nth(int a[], int startIndex, int endIndex, int n);
+void voidFunc (){
+    printf("I'm voidFunc\n");
+}
 
-/*找出前n大的数*/
-void choose_max_n(int a[],int startIndex, int endIndex, int n);
-
-
-
-void choose_max_n(int a[], int startIndex, int endIndex, int n)
-{
-    int i = choose_nth(a, startIndex, endIndex, n);
+char (^charFromInteger) (int) = ^(int integerParam){
     
-    printf("最大的前N个数是:\n");
-    for(; i <= endIndex; ++i)
-        printf("%d ",a[i]);
-    printf("\n");
+    return (char)integerParam;
+};
+
+typedef char (^CharFromIntegerConverter)(int);
+
+char convertIntegerToChar(int integer, CharFromIntegerConverter charFromIntegerConverter){
+    
+    return charFromIntegerConverter(integer);
+}
+
+char convertIntegerToCharDirectlyUsingBlock(int integer, char(^block)(int integerParam)){
+    return (char)block(integer);
+}
+
+void callPreviousPractice(){
+    
+    int (^yesBlock) (int j322) = ^(int param){
+        return 1;
+    };
+    
+    
+    void (^voidBlock) (void)  = ^(void){
+        printf("I'm void\n");
+    };
+    voidBlock();
+    
+    
+    
+    printf("%zd\n",yesBlock(2));
+    printf("%c\n",charFromInteger(65));
+    printf("convertIntegerToChar:%c\n",convertIntegerToChar(65, charFromInteger));
+
+    typedef char * pStr;
+    
+    char string[4] = "abc";
+    
+    const char *p1 = string;
+    
+    const pStr p2 = string;
+    
+    p1++;
+//ERROR  p2++;
+    
+    printf("%c\n",convertIntegerToCharDirectlyUsingBlock(65, ^char(int integerParam) {
+        return (char)integerParam;
+    }));
+    
+    printf("%c\n",convertIntegerToCharDirectlyUsingBlock(65, charFromInteger));
+    
 }
 
 
-int choose_nth(int a[], int startIndex, int endIndex, int n)
-{
-    int midOne = a[startIndex];
-    int i = startIndex, j = endIndex;
-    if(i == j)
-        return i;
+
+void toBeMeasured(){
     
-    if(i < j)
-    {
-        while(i < j)
-        {
-            for(; i < j; j--)
-                if(a[j] < midOne)
-                {
-                    a[i++] = a[j];
-                    break;
-                }
-            
-            for(; i < j; i++)
-                if(a[i] > midOne)
-                {
-                    a[j--] = a[i];
-                    break;
-                }
-            
-        }
-        
-        a[i] = midOne;
-        int th = endIndex - i + 1;
-        
-        if(th == n)
-        {
-            return i;
-        }
-        else
-        {
-            if(th > n)
-            {
-                return choose_nth(a, i + 1, endIndex, n);
-            }
-            else
-            {
-                return choose_nth(a, startIndex, i - 1, n - th);
-            }
-        }
-        
-    }
-    return (1<<30)-2;
+    
+    
 }
 
 int main(int argc, char **argv)
 {
-    int a[] = {1,4,111,32,45,1000,99,300,8,22,189};
-    int n,i;
-    printf("数组是:\n");
-    int an = sizeof(a)/sizeof(int);
-    for(i = 0; i < an; ++i)
-        printf("%d ",a[i]);
+//    callPreviousPractice();
+    clock_t startClock, endClock;
+    startClock = clock();
+    
+    toBeMeasured();
+    
+    endClock = clock();
     printf("\n");
-    
-    printf("你想找最大的前面几个数:");
-    scanf("%d",&n);
-    
-    choose_max_n(a, 0, an - 1, n);
-    
+    printf("%lf",(double)(endClock-startClock)/CLOCKS_PER_SEC);
     return 0;
 }
+
+
+
